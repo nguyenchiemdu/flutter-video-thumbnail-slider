@@ -6,26 +6,31 @@ import 'dart:isolate';
 import 'dart:async';
 
 class FrameUtils {
+  // Get a thumbnail image from a video at a specified position.
   Future<Uint8List?> getThumbnail(String videoPath,
       {Duration position = Duration.zero}) async {
     try {
       final uint8list = await VideoThumbnail.thumbnailData(
-          video: videoPath,
-          imageFormat: ImageFormat.JPEG,
-          quality: 100,
-          timeMs: position.inMilliseconds);
+        video: videoPath,
+        imageFormat: ImageFormat.JPEG,
+        quality: 100,
+        timeMs: position.inMilliseconds,
+      );
       return uint8list;
     } catch (e, s) {
+      // Handle any exceptions and print error information.
       debugPrint(e.toString());
       debugPrintStack(stackTrace: s);
       return null;
     }
   }
 
-  Future<List<Uint8List>> getListThumbnail(
-      {required String videoPath,
-      required Duration duration,
-      required int split}) async {
+  // Get a list of thumbnails from a video at evenly spaced intervals.
+  Future<List<Uint8List>> getListThumbnail({
+    required String videoPath,
+    required Duration duration,
+    required int split,
+  }) async {
     final jumpStep = duration.inSeconds / split ~/ 1;
     final List<Duration> timePoint = [];
 
@@ -37,6 +42,7 @@ class FrameUtils {
     return listThumbnail.whereType<Uint8List>().toList();
   }
 
+  // Generate thumbnails in an isolate and send them back to the main isolate.
   Future<void> generateThumbnails(Map<String, dynamic> data) async {
     // Ensure that the isolate's binary messenger is initialized.
     BackgroundIsolateBinaryMessenger.ensureInitialized(rootToken);
@@ -63,10 +69,13 @@ class FrameUtils {
   }
 
   late RootIsolateToken rootToken;
-  Future<List<Uint8List>> getListThumbnailIsolate(
-      {required String videoPath,
-      required Duration duration,
-      required int split}) async {
+
+  // Get a list of thumbnails from a video using an isolate.
+  Future<List<Uint8List>> getListThumbnailIsolate({
+    required String videoPath,
+    required Duration duration,
+    required int split,
+  }) async {
     final receivePort = ReceivePort();
     rootToken = RootIsolateToken.instance!;
     final isolateData = {

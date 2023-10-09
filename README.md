@@ -7,6 +7,9 @@ A Flutter package that provides a customizable video thumbnail slider widget. Th
 - Displays a video thumbnail slider with customizable settings.
 - Supports custom frame builders for individual frames in the slider.
 - Allows seeking to different parts of the video by interacting with the slider.
+## Preview
+
+<img src="https://github.com/nguyenchiemdu/flutter-video-thumbnail-slider/blob/main/assets/screenshot_1.png?raw=true" height="600" />
 
 ## Getting Started
 
@@ -97,6 +100,6 @@ class MyApp extends StatelessWidget {
 
 ## Additional Information
 
-- [GitHub Repository](https://github.com/example/repo)
+- [GitHub Repository](https://github.com/nguyenchiemdu/flutter-video-thumbnail-slider)
 
 Feel free to contribute, report issues, or request features on the GitHub repository. We welcome your feedback and contributions!
